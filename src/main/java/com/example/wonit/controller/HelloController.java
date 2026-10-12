@@ -45,8 +45,4 @@ public class HelloController {
                            @RequestParam(value = "footsize", defaultValue = "안 들어옴") String footsize) { // @RequestParam : URL) 쿼리스트링에 있는 값을 변수로 받아오는 역할
         return "안녕 Spring boot " + path+ " " + name + ", 신발사이즈는 " + footsize; // hello 뒤에 path와 name 붙여서 반환
     }
-
-
-
-
 }
