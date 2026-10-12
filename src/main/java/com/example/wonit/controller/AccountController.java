@@ -1,12 +1,10 @@
 package com.example.wonit.controller;
 
 import com.example.wonit.dto.AccountResponse;
+import com.example.wonit.model.Account;
 import com.example.wonit.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,6 +44,13 @@ public class AccountController {
     @GetMapping("/report2")
     public long savingBalanceSum() {
         return accountService.savingBalanceSum();
+    }
+
+    // min~ max balance 사이의 계좌 정보를 검색
+    // http://localhost:8080/api/accounts/balance?minBalance=500000&maxBalance=1000000
+    @GetMapping("/balance")
+    public List<Account> getAccountBetweenBalance(@RequestParam long minBalance, @RequestParam long maxBalance) {
+        return accountService.getAccountBetweenBalance(minBalance, maxBalance);
     }
 
 }

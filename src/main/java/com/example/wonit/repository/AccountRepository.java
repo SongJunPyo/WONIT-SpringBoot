@@ -4,6 +4,7 @@ import com.example.wonit.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 // JPA의 규칙대로 우리가 메서드를 설계해두면 Hibernate라는 통역기가 db에 맞는 SQL문으로 변경해서 데이터를 가져옵니다.
@@ -11,4 +12,6 @@ import java.util.Optional;
 @Repository                                       // <엔티티명, 엔티티의 pk 컬럼의 자료형>
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByAccountNo(String accountNo);
+
+    List<Account> findByBalanceBetween(long minBalance, long maxBalance);
 }

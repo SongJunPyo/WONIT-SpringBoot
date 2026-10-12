@@ -43,4 +43,8 @@ public class AccountService {
                 .stream().filter(account -> account.getAccountType().equals("적금"))
                 .mapToLong(Account::getBalance).sum();
     }
+
+    public List<Account> getAccountBetweenBalance(long minBalance, long maxBalance) {
+        return accountRepository.findByBalanceBetween(minBalance, maxBalance); // JPA의 규칙대로 작성한 메서드가 Hibernate에 의해 쿼리로 변환되어서 JDBC로 DB에 다녀옵니다.
+    }
 }
