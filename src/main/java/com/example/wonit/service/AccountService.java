@@ -20,4 +20,8 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    // 하나의 계좌 정보를 return
+    public Account findOne(String accountNo) {
+        return accountRepository.findByAccountNo(accountNo);
+    }
 }

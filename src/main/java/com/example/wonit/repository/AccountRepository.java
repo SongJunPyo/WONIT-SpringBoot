@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository                                         // <엔티티명, 엔티티의 pk컬럼
 // interface여도 괜찮은 이유 -> JPA를 Hibernate라는 구현체가 실제로는 구현해주기 때문
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+    Account findByAccountNo(String accountNo);
+
 }
