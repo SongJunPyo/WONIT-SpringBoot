@@ -17,4 +17,11 @@ public class Account {
     private Long balance;
     private String status;
 
+    // 단일 Entity(Model)의 단점
+    // -> 불필요한 값들(예: customerId, customerId 등)도 포함됨
+    // => DTO(Data Transfer Object)라는 별도의 클래스를 만들어서 필요한 값만 전달하는 방식이 있음
+
+
+    // @Setter 대신에 우리가 만든 별도의 status가 지급정지는 아닌지, 잔액이 부족하진 않는지 점검하고 처리
+
 }

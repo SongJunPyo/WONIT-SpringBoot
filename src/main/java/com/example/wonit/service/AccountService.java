@@ -5,6 +5,8 @@ import com.example.wonit.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.AccountNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.List;
 
 // Controller와만 통신하며, 요청에 대한 실제 로직을 담당
@@ -20,8 +22,13 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    // 하나의 계좌 정보를 return
-    public Account findOne(String accountNo) {
+    // 하나의 계좌 정보를 return + 예외 처리
+    public Optional<Account> findOne(String accountNo) {
         return accountRepository.findByAccountNo(accountNo);
+    }
+
+    // 하나의 계좌 정보를 return + 예외 처리
+    public Account findOne(String accountNo) {
+        return accountRepository.findByAccountNo(accountNo).orElseThrow(() -> new AccountNotFoundException(accountNo + " 계좌를 찾을 수 없습니다."));
     }
 }
