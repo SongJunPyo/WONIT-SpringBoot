@@ -33,7 +33,7 @@ spring:
         format_sql: true      # SQL 을 줄바꿈해서 사람이 읽기 좋게 출력한다
 
     # Hibernate가 테이블을 생성한 후 data.sql 실행
-    defer-datasource-initialization: true
+    defer-datasource-initialization: true   # 데이터 초기화 시점 지연
   h2:
     console:
       enabled: true
