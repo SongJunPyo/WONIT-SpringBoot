@@ -62,6 +62,13 @@ public class AccountController {
     }
 
     // balance 순서대로 작은 금액에서 큰 금액 순서로 모든 계좌 조회
+    @GetMapping("/sort") // localhost:8080/api/accounts/sort
+    public List<AccountResponse> findAllAccountsByBalanceASC() {    // DTO형식(왜? 불필요한 건 걸러서)
+
+        // Controller단에서 자료형 변환(stream 기반)
+        return accountService.findAllAccountsByBalanceASC().stream().map(AccountResponse::from).toList();    // Service 계층에서
+    }
+
 
     // status 에서 정상 / 휴면 / 지급정지 들어오면 각 상황에 맞는 계좌만 필터링
 
