@@ -1,3 +1,5 @@
+// JPA의 규칙대로 우리가 메서드를 설계해두면 Hibernate라는 통역기가 JDBC를 통해 db에 맞는 SQL문으로 변경해서 데이터를 가져옵니다.
+
 package com.example.wonit.repository;
 
 import com.example.wonit.model.Account;

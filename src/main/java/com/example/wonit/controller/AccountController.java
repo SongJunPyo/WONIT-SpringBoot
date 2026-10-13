@@ -1,3 +1,5 @@
+// Controller: 서버 내부에 있는 어떤 함수에 매핑할 것인지 확인 후 이를 Service에 연결해주는 역할
+
 package com.example.wonit.controller;
 
 import com.example.wonit.dto.AccountResponse;
@@ -11,6 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/accounts") // localhost:8080/api/accounts
 public class AccountController {
+
+    // 주소줄에서 2가지 방법으로 메서드 호출
+    // 1. @PathVariable : 주소줄에 있는 값을 가져오는 방법
+        // 예시: localhost:8080/api/accounts/1002-345-678901
+    // 2. @RequestParam : 주소줄에 있는 ?뒤에 있는 값을 가져오는 방법
+        // 예시: localhost:8080/api/accounts/balance?minBalance=500000&maxBalance=1000000
 
     // Inversion Of Control (개발자가 Bean으로 등록해놓은 객체는 스프링 컨테이너가 관리하므로 개발자는 가져다 쓰기만 하면 됩니다.)
     // AccountService aService = new AccountService();

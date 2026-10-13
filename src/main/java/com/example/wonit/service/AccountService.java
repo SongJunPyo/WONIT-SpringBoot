@@ -1,3 +1,5 @@
+// 실제 업무 담당(비즈니스 로직) -> 가장 긴 코드 작성
+
 package com.example.wonit.service;
 
 import com.example.wonit.exception.*;
