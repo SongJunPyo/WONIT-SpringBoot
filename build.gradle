@@ -30,6 +30,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    implementation("mysql:mysql-connector-java:8.0.33")     // JDBC Driver for MySQL
 }
 
 tasks.named('test') {

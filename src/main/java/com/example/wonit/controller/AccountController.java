@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/accounts") // localhost:8080/api/accounts
 public class AccountController {
 
-    // 주소줄에서 2가지 방법으로 메서드 호출
+    // 주소창에서 2가지 방법으로 메서드 호출
     // 1. @PathVariable : 주소줄에 있는 값을 가져오는 방법
         // 예시: localhost:8080/api/accounts/1002-345-678901
     // 2. @RequestParam : 주소줄에 있는 ?뒤에 있는 값을 가져오는 방법
@@ -24,7 +24,7 @@ public class AccountController {
     // AccountService aService = new AccountService();
     // 어차피 스프링컨테이너가 관리하는 bean이므로 private으로 막아둡니다.
     @Autowired // 서로서로 연결된 bean임을 알려줍니다. 생략하면 Springboot가 넣어줌
-    private AccountService accountService;
+    private AccountService accountService;      // 외부에서 접근하지 못하도록 -> 이 클래스 안에서만 사용할 수 있도록
 
     // 모든 accounts를 조회
     // jpa의 규칙은 Repository에서만 영향을 미칩니다.

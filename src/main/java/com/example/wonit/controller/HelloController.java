@@ -1,5 +1,6 @@
 package com.example.wonit.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 // Controller 계층은 사용자의 요청을 받아서 화면에 돌려주는 역할
@@ -11,10 +12,14 @@ public class HelloController {
 
     // 값을 전달하는 방법 3가지
 
+    // application.yml 아래에 있는 app: title:
+    @Value("${app.title}")
+    private String appTitle;
+
     // 1. GET 요청 : URL 경로에 있는 값을 변수로 받아오는 역할
     @GetMapping // GET 요청을 처리하는 메서드 -> 어떤 방식으로 아래 함수를 호출할지 결정
     public String sayHello() {
-        return "HELLO!!!!!!!";
+        return "HELLO!!!!!!!" + appTitle;
     }
 
     // 2. PathVariable : URL 경로에 있는 값을 변수로 받아오는 역할

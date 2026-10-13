@@ -10,6 +10,7 @@ public record AccountResponse(String accountNo, String accountType, long balance
 
     public static AccountResponse from(Account account) {
         return new AccountResponse(
+                // 이것들만 끄집어 내서 AccountResponse형으로 활용
                 account.getAccountNo(),
                 account.getAccountType(),
                 account.getBalance(),
