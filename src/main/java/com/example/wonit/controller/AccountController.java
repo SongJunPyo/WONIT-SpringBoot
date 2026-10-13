@@ -53,4 +53,9 @@ public class AccountController {
         return accountService.getAccountBetweenBalance(minBalance, maxBalance);
     }
 
+    // balance 순서대로 작은 금액에서 큰 금액 순서로 모든 계좌 조회
+
+    // status 에서 정상 / 휴면 / 지급정지 들어오면 각 상황에 맞는 계좌만 필터링
+
+    // account_type에 적금 / 입출금 들어오면 각 상황에 맞는 계좌만 필터링
 }
