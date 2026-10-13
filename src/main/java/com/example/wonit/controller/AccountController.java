@@ -5,10 +5,14 @@ package com.example.wonit.controller;
 import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.model.Account;
 import com.example.wonit.service.AccountService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@Tag(name = "swagger 테스트 API", description = "swagger 테스트를 진행하는 API")
 
 @RestController
 @RequestMapping("/api/accounts") // localhost:8080/api/accounts
@@ -28,11 +32,12 @@ public class AccountController {
 
     // 모든 accounts를 조회
     // jpa의 규칙은 Repository에서만 영향을 미칩니다.
+    @Operation(summary = "정보 모두 조회", description = "Account의 전체 정보를 조회합니다.")
     @GetMapping
     public List<AccountResponse> findAll() {
         // stream().filter() : 값이 true인 것만 반환
         // stream().map() : 모든 값에 같은 메서드를 일괄 적용
-        return accountService.findAll().stream().map(AccountResponse::from).toList();
+        return accountService.findAll().stream().map(AccountResponse::from).toList(); // Account -> AccountResponse로 변환
     }
 
     // 특정 계좌번호의 세부 정보를 조회  localhost:8080/api/accounts/1002-345-678901
@@ -66,11 +71,36 @@ public class AccountController {
     public List<AccountResponse> findAllAccountsByBalanceASC() {    // DTO형식(왜? 불필요한 건 걸러서)
 
         // Controller단에서 자료형 변환(stream 기반)
-        return accountService.findAllAccountsByBalanceASC().stream().map(AccountResponse::from).toList();    // Service 계층에서
+        return accountService.findAllAccountsByBalanceASC().stream().map(AccountResponse::from).toList();    // Account -> AccountResponse로 변환
     }
 
 
     // status 에서 정상 / 휴면 / 지급정지 들어오면 각 상황에 맞는 계좌만 필터링
+    // 또는 "localhost:8080/api/accounts/status=정상" -> 아래 이유로 인해 이 방식이 맞겠군
+//    @GetMapping("/{status}") // localhost:8080/api/accounts/정상 -> 이 방식의 현재 단점: @GetMapping("/{accountNo}")와 입력이 겹침
+//    public List<AccountResponse> findAllAccountsByStatus(@PathVariable String status) {    // DTO형식(왜? 불필요한 건 걸러서)
+
+    // 입력 예시: localhost:8080/api/accounts/status?status=정상
+    @GetMapping("/status")
+    public List<AccountResponse> findAllAccountsByStatus(@RequestParam(value = "status") String status) {
+
+        // Controller단에서 자료형 변환(stream 기반)
+        return accountService.findAllAccountsByStatus(status).stream().map(AccountResponse::from).toList(); // Account -> AccountResponse로 변환
+    }
 
     // account_type에 적금 / 입출금 들어오면 각 상황에 맞는 계좌만 필터링
+
+    // 입력 예시: localhost:8080/api/accounts/account_type/적금
+    @GetMapping("/account-type/{accountType}")
+    public List<AccountResponse> findAllAccountsByAccountType(@PathVariable String accountType) {
+        // Controller단에서 자료형 변환(stream 기반)
+        return accountService.findAllAccountsByAccountType(accountType).stream().map(AccountResponse::from).toList(); // Account -> AccountResponse로 변환
+    }
+
+    // 주소줄 작성방법
+    // 1. accountType (camelCase: Java 스타일)
+    // 2. account_type (snake_case: DB 스타일)
+    // 3. account-type (kebab-case: HTTP 스타일)
+
+
 }

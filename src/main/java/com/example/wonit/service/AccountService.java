@@ -9,6 +9,7 @@ import com.example.wonit.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,14 @@ public class AccountService {
 
     // 여기서 자료형이 Account인 이유 -> Service 계층은 Repository로 부터 Entity를 그대로 받음
     public List<Account> findAllAccountsByBalanceASC() {
-        return accountRepository.findAllOrderByBalanceASC();
+        return accountRepository.findAllByOrderByBalanceAsc();
+    }
+
+    public List<Account> findAllAccountsByStatus(String status) {
+        return accountRepository.findByStatusContains(status);
+    }
+
+    public List<Account> findAllAccountsByAccountType(String accountType) {
+        return accountRepository.findByAccountTypeLike(accountType);
     }
 }

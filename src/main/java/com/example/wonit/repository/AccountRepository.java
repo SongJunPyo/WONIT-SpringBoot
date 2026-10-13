@@ -2,6 +2,7 @@
 
 package com.example.wonit.repository;
 
+import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> { // 
     List<Account> findByBalanceBetween(long minBalance, long maxBalance);
 
     // PK를 사용한 단건 조회 또는 모든 건 조회가 아닌 경우 작성만 해주면 됨
-    List<Account> findAllOrderByBalanceASC();
+    List<Account> findAllByOrderByBalanceAsc();
+
+    List<Account> findByStatusContains(String status);
+
+    List<Account> findByAccountTypeLike(String accountType);
 }
