@@ -1,3 +1,7 @@
+/**
+ * JavaDoc
+ */
+
 // 실제 업무 담당(비즈니스 로직) -> 가장 긴 코드 작성
 
 package com.example.wonit.service;
@@ -7,6 +11,7 @@ import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.exception.*;
 import com.example.wonit.model.Account;
 import com.example.wonit.repository.AccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +21,11 @@ import java.util.Optional;
 
 // Controller와만 통신하며 요청에 대한 실제 로직을 담당
 @Service
+@RequiredArgsConstructor    // accountRepository의 final 지정
 public class AccountService {
 
     @Autowired // 서로서로 연결된 bean임을 알려줍니다. 생략하면 Springboot가 넣어줌
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     // 모든 계좌를 리턴
     public List<Account> findAll() {

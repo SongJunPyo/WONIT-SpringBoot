@@ -5,6 +5,7 @@ import com.example.wonit.dto.TransactionResponse;
 import com.example.wonit.model.Account;
 import com.example.wonit.model.Transaction;
 import com.example.wonit.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions") // localhost:8080/api/accounts
+@RequiredArgsConstructor
 public class TransactionController {
 
     @Autowired
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
 //    @GetMapping("/select")
 //    public List<TransactionResponse> getTransactionByCategory(@RequestParam(value = "category") String category) {
