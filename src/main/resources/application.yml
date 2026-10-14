@@ -56,3 +56,8 @@ logging:
     com.example.wonit: DEBUG                   # 우리 패키지만 자세히
     org.hibernate.SQL: DEBUG                   # 실행되는 SQL (show-sql 대신 이것을 권장: 로그 형식·레벨을 따름)
     org.hibernate.orm.jdbc.bind: TRACE         # SQL 의 ? 자리에 실제로 들어간 값
+
+
+# 로그가 파일로도 남음
+file:
+  name: logs/wonit.log

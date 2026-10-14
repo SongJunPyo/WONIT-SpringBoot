@@ -96,10 +96,10 @@
 --    (1, '010-1111-2222'),
 --    (1, '02-555-0000');
 
--- INSERT INTO account (account_id, customer_id, account_no, account_type, balance, status) VALUES
---     (1, 1, '1002-345-678901', '입출금', 1523000, '지급정지'),
---     (2, 1, '1002-345-112233', '적금',   1099500, '정상'),
---     (3, 1, '1002-345-998877', '적금',    497000, '휴면');
+INSERT INTO account (account_id, customer_id, account_no, account_type, balance, status) VALUES
+    (1, 1, '1002-345-678901', '입출금', 1523000, '지급정지'),
+    (2, 1, '1002-345-112233', '적금',   1099500, '정상'),
+    (3, 1, '1002-345-998877', '적금',    497000, '휴면');
 
 --INSERT INTO employee (employee_id, name, duty) VALUES
 --    (1, '박지훈', '수신'),

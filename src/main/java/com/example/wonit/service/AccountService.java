@@ -64,6 +64,13 @@ public class AccountService {
     }
 
     public List<Account> getAccountBetweenBalance(long minBalance, long maxBalance) {
+        if(minBalance > maxBalance) {
+            log.warn("잘못된 잔액 범위: minBalance={}, maxBalance={}", minBalance, maxBalance);
+            throw new InvalidAccountRequestException("minBalance는 maxBalance보다 클 수 없습니다.");
+        }
+
+        log.debug("잔액 범위로 계좌 조회: minBalance={}, maxBalance={}", minBalance, maxBalance);
+
         return accountRepository.findByBalanceBetween(minBalance, maxBalance); // JPA의 규칙대로 작성한 메서드가 Hibernate에 의해 쿼리로 변환되어서 JDBC로 DB에 다녀옵니다.
     }
 

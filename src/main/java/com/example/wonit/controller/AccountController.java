@@ -90,7 +90,8 @@ public class AccountController {
     // http://localhost:8080/api/accounts/balance?minBalance=500000&maxBalance=1000000
     @GetMapping("/balance")
     public List<Account> getAccountBetweenBalance(@RequestParam long minBalance, @RequestParam long maxBalance) {
-        return accountService.getAccountBetweenBalance(minBalance, maxBalance);
+//        return accountService.getAccountBetweenBalance(minBalance, maxBalance);
+        return accountService.getAccountBetweenBalance(maxBalance, minBalance);
     }
 
     // balance 순서대로 작은 금액에서 큰 금액 순서로 모든 계좌 조회
