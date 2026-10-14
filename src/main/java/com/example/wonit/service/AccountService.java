@@ -12,6 +12,7 @@ import com.example.wonit.exception.*;
 import com.example.wonit.model.Account;
 import com.example.wonit.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 // Controller와만 통신하며 요청에 대한 실제 로직을 담당
+@Slf4j
 @Service
 @RequiredArgsConstructor    // accountRepository의 final 지정
 public class AccountService {
@@ -37,8 +39,14 @@ public class AccountService {
         return accountRepository.findByAccountNo(accountNo);
     }
 
+    /**
+     *
+     * @param accountNo 찾을 계좌번호
+     * @return Account 찾은 계좌
+     */
     // 하나의 계좌 정보를 리턴 -> 받아서 Account 자료형으로 받거나 예외를 일으키는 함수
     public Account getAccount(String accountNo) {
+        log.info("계좌 조회={}", accountNo);
         return findOne(accountNo).orElseThrow(() -> new AccountNotFoundException(accountNo + "계좌를 찾을 수 없습니다"));
     }
 

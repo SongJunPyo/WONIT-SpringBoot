@@ -7,16 +7,16 @@ spring:
   datasource:
     # 아래 MySQL로 실행 전 사전 테스트
     #   h2 database
-    url: jdbc:h2:mem:testdb   # 테스트용 인메모리 DB => "http://localhost:8080/h2-console"로 확인 가능
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+#    url: jdbc:h2:mem:testdb   # 테스트용 인메모리 DB => "http://localhost:8080/h2-console"로 확인 가능
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
 
 #  # MySQL Database
-#      url: jdbc:mysql://${host}:3306/${database}?useSSL=false&serverTimezone=Asia/Seoul
-#      username: ${username}
-#      password: ${password}
-#      driver-class-name: com.mysql.cj.jdbc.Driver   # JDBC 드라이버 가져와서 넘겨줘야됨 -> 'implementation("mysql:mysql-connector-java:8.0.33")' 추가하면 됨
+      url: jdbc:mysql://${host}:3306/${database}?useSSL=false&serverTimezone=Asia/Seoul
+      username: ${username}
+      password: ${password}
+      driver-class-name: com.mysql.cj.jdbc.Driver   # JDBC 드라이버 가져와서 넘겨줘야됨 -> 'implementation("mysql:mysql-connector-java:8.0.33")' 추가하면 됨
   jpa:
     hibernate:
       # ddl-auto 옵션: create, create-drop, update, validate, none
@@ -46,3 +46,13 @@ spring:
 # 한글이 들어가면 깨지는 경우 多
 app:
   title: ${title}
+
+
+# application.yml
+# info 이하의 모든 로그를 다 볼거야 ~
+logging:
+  level:
+    root: INFO    # 스프링부트의 모든 환경
+    com.example.wonit: DEBUG                   # 우리 패키지만 자세히
+    org.hibernate.SQL: DEBUG                   # 실행되는 SQL (show-sql 대신 이것을 권장: 로그 형식·레벨을 따름)
+    org.hibernate.orm.jdbc.bind: TRACE         # SQL 의 ? 자리에 실제로 들어간 값
