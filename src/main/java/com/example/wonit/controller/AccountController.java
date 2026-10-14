@@ -2,14 +2,18 @@
 
 package com.example.wonit.controller;
 
+import com.example.wonit.dto.AccountCreateRequest;
 import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.model.Account;
 import com.example.wonit.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "swagger 테스트 API", description = "swagger 테스트를 진행하는 API")
@@ -103,4 +107,30 @@ public class AccountController {
     // 3. account-type (kebab-case: HTTP 스타일)
 
 
+//    // @RequestBody: 숨가고 싶은 정보, 주소줄에 전달하기에 너무 긴 값들을 body에 싣고 넘기는 방법
+//    // ResponseEntity: 응답코드를 구체적을 ㅗ넘겨주기 위한 스프링부트
+//    @PostMapping
+//    public ResponseEntity<AccountResponse> createAccount(
+//            @RequestBody AccountCreateRequest request
+//    ) {
+//        Account account = accountService.createAccount(request);
+//
+//        // 새로 발급받은 _{accountNo}로 주소를 돌려서 호출하는 부분
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath()
+//                .path("/api/accounts/{accountNo}")
+//                .buildAndExpand(account.getAccountNo())
+//                .toUri();
+//
+//        return ResponseEntity
+//                .created(location)
+//                .body(AccountResponse.from(account));
+//    }
+
+    // @RequestBody: 숨가고 싶은 정보, 주소줄에 전달하기에 너무 긴 값들을 body에 싣고 넘기는 방법
+    @PostMapping
+    public AccountResponse createAccount(@RequestBody AccountCreateRequest request) {
+        Account account = accountService.createAccount(request);
+        return AccountResponse.from(account); // dto 적용
+    }
 }

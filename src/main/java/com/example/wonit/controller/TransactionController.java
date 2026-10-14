@@ -42,6 +42,33 @@ public class TransactionController {
                 .toList();
     }
 
+    /*
+    @GetMapping("/select")
+    public List<TransactionResponse> select(
+        @RequestParam(required = false) String category,
+        @RequestParam(required = false) String memo
+    ) {
+        boolean hasCategory = StringUtils.hasText(category);
+        boolean hasMemo = StringUtils.hasText(memo);
+
+        if (!hasCategory && !hasMemo) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "category 또는 memo를 입력해야 합니다."
+            );
+        }
+
+        List<?> results = hasMemo
+                ? transactionService.getTransactionByCategoryOrMemo(
+                hasCategory ? category.trim() : null, memo.trim())
+                : transactionService.getTransactionByCategory(category.trim());
+
+        return results.stream()
+                .map(Transaction.class::cast)
+                .map(TransactionResponse::from)
+                .toList();
+    }
+     */
+
     @GetMapping("/select2")
     public List<TransactionResponse> getTransactionByAmount(@RequestParam long minAmount, @RequestParam long maxAmount) {
         return transactionService.findAllTransactionByAmount(minAmount, maxAmount).stream().map(TransactionResponse::from).toList();

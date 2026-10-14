@@ -2,6 +2,7 @@
 
 package com.example.wonit.service;
 
+import com.example.wonit.dto.AccountCreateRequest;
 import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.exception.*;
 import com.example.wonit.model.Account;
@@ -63,5 +64,27 @@ public class AccountService {
 
     public List<Account> findAllAccountsByAccountType(String accountType) {
         return accountRepository.findByAccountTypeLike(accountType);
+    }
+
+    public Account createAccount(AccountCreateRequest request) {
+        if (request.customerId() == null || request.customerId() <= 0) {
+            throw new InvalidAccountRequestException("올바른 customerId가 필요합니다.");
+        }
+
+        if (!List.of("입출금", "적금").contains(request.accountType())) {
+            throw new InvalidAccountRequestException("지원하지 않는 accountType입니다.");
+        }
+
+        String accountNo;
+        do {
+            accountNo = java.util.UUID.randomUUID()
+                    .toString()
+                    .replace("-", "")
+                    .substring(0, 20);
+        } while (accountRepository.existsByAccountNo(accountNo));
+
+        return accountRepository.save(
+                Account.open(request.customerId(), accountNo, request.accountType())
+        );
     }
 }
