@@ -11,7 +11,9 @@ import org.springframework.context.annotation.Configuration;
 // API 목록 자체는 springdoc 이 컨트롤러를 읽어서 자동으로 만듭니다
 // 이 파일이 없어도 Swagger 는 뜹니다(제목만 기본값).
 // 🏦 운영 서버에서는 Swagger 를 끕니다(springdoc.api-docs.enabled=false).
-// 주소 목록이 곧 공격 지도가 되기 때문입니.
+// 주소 목록이 곧 공격 지도가 되기 때문입니다.
+
+// Swagger를 Bean으로 등록
 @Configuration
 public class SwaggerConfig {
 

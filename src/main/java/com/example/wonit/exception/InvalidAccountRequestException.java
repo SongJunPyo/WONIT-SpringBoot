@@ -1,4 +1,7 @@
 // exception/InvalidAccountRequestException.java
+
+// 없는 계좌에 대한 요청을 처리하는 예외
+
 package com.example.wonit.exception;
 
 

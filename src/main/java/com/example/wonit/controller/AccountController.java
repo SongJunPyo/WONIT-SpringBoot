@@ -5,6 +5,7 @@ package com.example.wonit.controller;
 import com.example.wonit.dto.AccountCreateRequest;
 import com.example.wonit.dto.AccountResponse;
 import com.example.wonit.exception.AccountNotFoundException;
+import com.example.wonit.exception.InvalidAccountRequestException;
 import com.example.wonit.model.Account;
 import com.example.wonit.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,6 +71,23 @@ public class AccountController {
         log.info("계좌 조회 = " + accountNo);   // 문자열을 더하는 과정을 거치고 나서 로그를 제외
         log.info("계좌 조회:={}", accountNo);   // 아예 보지도 않고 실행 -> (더 추천)
 //        System.out.println(accountNo);
+
+        // ============================추가=============================
+
+        boolean validAccountNo = accountNo.matches(
+                "(?i)(\\d{4}-\\d{3}-\\d{6}|[0-9a-f]{20})"
+        );
+
+        if (!validAccountNo) {
+            throw new InvalidAccountRequestException(
+                    "계좌번호 형식이 올바르지 않습니다."
+            );
+        }
+
+        log.info("계좌 조회 시작={}", accountNo);
+
+        // ============================================================
+
         return AccountResponse.from(accountService.getAccount(accountNo));
     }
 
@@ -131,30 +149,49 @@ public class AccountController {
     // 3. account-type (kebab-case: HTTP 스타일)
 
 
-//    // @RequestBody: 숨가고 싶은 정보, 주소줄에 전달하기에 너무 긴 값들을 body에 싣고 넘기는 방법
-//    // ResponseEntity: 응답코드를 구체적을 ㅗ넘겨주기 위한 스프링부트
-//    @PostMapping
-//    public ResponseEntity<AccountResponse> createAccount(
-//            @RequestBody AccountCreateRequest request
-//    ) {
-//        Account account = accountService.createAccount(request);
-//
-//        // 새로 발급받은 _{accountNo}로 주소를 돌려서 호출하는 부분
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath()
-//                .path("/api/accounts/{accountNo}")
-//                .buildAndExpand(account.getAccountNo())
-//                .toUri();
-//
-//        return ResponseEntity
-//                .created(location)
-//                .body(AccountResponse.from(account));
-//    }
+    // @RequestBody: 숨가고 싶은 정보, 주소줄에 전달하기에 너무 긴 값들을 body에 싣고 넘기는 방법
+    // ResponseEntity: 응답코드를 구체적을 ㅗ넘겨주기 위한 스프링부트
+    @PostMapping
+    public ResponseEntity<AccountResponse> createAccount(
+            @RequestBody AccountCreateRequest request
+    ) {
+        Account account = accountService.createAccount(request);
+
+        // 새로 발급받은 _{accountNo}로 주소를 돌려서 호출하는 부분
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/accounts/{accountNo}")
+                .buildAndExpand(account.getAccountNo())
+                .toUri();
+
+        return ResponseEntity
+                .created(location)  // Header(부가 정보)에 새로 생긴 계좌번호를 담아서 주소를 전달
+                .body(AccountResponse.from(account));   // Body(주요 정보)에
+    }
 
     // @RequestBody: 숨가고 싶은 정보, 주소줄에 전달하기에 너무 긴 값들을 body에 싣고 넘기는 방법
-    @PostMapping
-    public AccountResponse createAccount(@RequestBody AccountCreateRequest request) {
-        Account account = accountService.createAccount(request);
-        return AccountResponse.from(account); // dto 적용
-    }
+//    /**
+//     * 새 계좌를 개설합니다.
+//     *
+//     * <p>요청 예시:
+//     * <pre>
+//     * POST /api/accounts
+//     * Content-Type: application/json
+//     * {"customerId": 1, "accountType": "적금"}
+//     * </pre>
+//     *
+//     * <p>계좌번호, 초기 잔액, 상태는 서버에서 설정합니다. 계좌 ID는
+//     * {@code Account}의 IDENTITY 전략으로 DB가 생성합니다.
+//     * H2에서 시드 데이터가 {@code account_id} 1, 2, 3을 사용한다면,
+//     * 시드 INSERT 이후 다음 ID가 4가 되도록 설정해야 기본 키 충돌을 방지할 수 있습니다.
+//     *
+//     * @param request 개설할 고객 ID와 계좌 종류
+//     * @return 생성된 계좌 정보
+//     */
+//    @Operation(summary = "사용자 정보 입력 후 계좌 개설", description = "이미 존재하는 고객 ID와 계좌 종류를 입력받아 신규 Account를 생성합니다.")
+//    @PostMapping
+//    public AccountResponse createAccount(@RequestBody AccountCreateRequest request) {
+//        Account account = accountService.createAccount(request);
+//        return AccountResponse.from(account); // dto 적용
+//    }
 }
