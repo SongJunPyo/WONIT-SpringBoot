@@ -19,6 +19,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+// RestController = 인터넷 주소(URL)를 받아 Service 를 부르는 부분. 돌려주는 자바 객체는 Spring 이 JSON 으로 바꿔 응답한다
+// REST 규칙: URL 은 명사(무엇을), HTTP 메서드는 동사(어떻게)
+//   GET    /api/accounts                     목록      200 v
+//   GET    /api/accounts/{accountNo}         하나      200 v
+//   POST   /api/accounts                     개설      201 + Location 헤더로 개설된 주소 전송 v
+//   PUT    /api/accounts/{accountNo}         통째로 교체 200
+//   PATCH  /api/accounts/{accountNo}/status  상태(하나) 변경 200
+//   DELETE /api/accounts/{accountNo}         해지      204
+//   POST   /api/accounts/{accountNo}/withdrawals    출금      201
+//   POST   /api/accounts/{accountNo}/deposits       입금      201
+//   GET    /api/accounts/{accountNo}/transactions   거래내역  200 (쪽 단위로 출력)
+
 @Slf4j
 // 시스템 로그 / 사용자 로그(A가 B상품 5개를 결제했습니다. => 행동 양식 결정)
 // 같은 방식으로 수집 및 활용
@@ -194,4 +206,19 @@ public class AccountController {
 //        Account account = accountService.createAccount(request);
 //        return AccountResponse.from(account); // dto 적용
 //    }
+
+//    PUT    /api/accounts/{accountNo}         통째로 교체 200
+
+    @PutMapping("/{accountNo}")
+    //
+    public AccountResponse updateOne(@PathVariable("accountNo") String accountNo,   // 주소줄에 입력하는 입력 값
+                                     @RequestBody AccountCreateRequest request) {   // 본문
+//        return accountService.updateOne(accountNo, request);
+        return AccountResponse.from(accountService.updateOne(accountNo, request));
+    }
+
+    @DeleteMapping("/{accountNo}")
+    public AccountResponse deleteOne(@PathVariable("accountNo") String accountNo) { // 삭제할 계좌의 번호만 알면 됨
+        return accountService.deleteOne(accountNo);
+    }
 }

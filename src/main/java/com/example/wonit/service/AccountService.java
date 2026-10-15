@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,9 +67,9 @@ public class AccountService {
             log.warn("잘못된 잔액 범위: minBalance={}, maxBalance={}", minBalance, maxBalance);
             throw new InvalidAccountRequestException("minBalance는 maxBalance보다 클 수 없습니다.");
         }
-
+        
         log.debug("잔액 범위로 계좌 조회: minBalance={}, maxBalance={}", minBalance, maxBalance);
-
+        
         return accountRepository.findByBalanceBetween(minBalance, maxBalance); // JPA의 규칙대로 작성한 메서드가 Hibernate에 의해 쿼리로 변환되어서 JDBC로 DB에 다녀옵니다.
     }
 
@@ -108,4 +107,32 @@ public class AccountService {
                 Account.open(request.customerId(), accountNo, request.accountType())
         );
     }
+
+    public Account updateOne(String accountNo, AccountCreateRequest request) {
+        // < 순서 >
+
+        // 1. 원본(기존 데이터) 가져오기
+        Account account = getAccount(accountNo);
+
+        // 2. 화면에 뿌리기(통째로 바꾸는 경우에는 생략 가능 But, 일부만 가져올 경우에는 원본의 내용과 일치하는 내용인지 확인해야 됨)
+            // 업무 메서드를 하나 Entity에 작성해서 변경
+            // 왜? @Setter 없으니, account.setCustomId(request.customId()); 등으로 변경 불가
+
+        // 3. 바뀐 내용 새로 객체로 저장하기
+        // 4. DB에 반영하기(Repository)
+        Account saved = accountRepository.save(account);
+
+        // 5. 반영된 상태 확인
+        return account;
+    }
+
+    public AccountResponse deleteOne(String accountNo) {
+        // CRUD는 JPA의 규칙대로 메서드를 만들어서 repository에 넘겨주기만 하면 됨
+        // 만약 PK라면 JPA에 메서드를 만들어놓지 않아도 삭제 가능 (accountNo는 PK아니니까 만들어야 됨)
+        return accountRepository.deleteByAccountNo(accountNo);
+    }
 }
+
+// 2. 필드 변경(= 2. 화면에 뿌리기 + 3. 바뀐 내용 새로 객체로 저장하기)
+    // PUT(POST) : 모두 가져와서 모두 다시 저장
+    // PATCH : 모두 가져와서 수정된 값만 저장(수정할 필드 일일이 비교해야 되는 번거로움 있음)
